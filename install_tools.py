@@ -3,7 +3,7 @@ import subprocess
 
 def install_packages():
     # Packages to install
-    packages = ["lldpd", "wireshark", "snmp", "snmpd", "vlan", "bridge-utils"]
+    packages = ["lldpd", "wireshark", "snmp", "snmpd", "vlan", "bridge-utils", "nmap", "net-tools"]
     
     # Check if the script is running with root privileges
     if os.geteuid() != 0:
@@ -49,6 +49,8 @@ def install_packages():
         print("Making /usr/bin/dumpcap executable...")
         subprocess.run(["chmod", "+x", "/usr/bin/dumpcap"], check=True)
         print("/usr/bin/dumpcap is now executable.")
+        
+        print("Installation of Nmap and net-tools complete.")
         
     except subprocess.CalledProcessError as e:
         print(f"An error occurred while installing or configuring packages: {e}")
