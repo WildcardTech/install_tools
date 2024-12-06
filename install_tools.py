@@ -3,7 +3,7 @@ import subprocess
 
 def install_packages():
     # Packages to install
-    packages = ["lldpd", "wireshark", "snmp", "snmpd", "vlan", "bridge-utils", "nmap", "net-tools"]
+    packages = ["lldpd", "wireshark", "snmp", "snmpd", "vlan", "bridge-utils", "nmap", "net-tools", "remmina"]
     
     # Check if the script is running with root privileges
     if os.geteuid() != 0:
@@ -50,7 +50,13 @@ def install_packages():
         subprocess.run(["chmod", "+x", "/usr/bin/dumpcap"], check=True)
         print("/usr/bin/dumpcap is now executable.")
         
-        print("Installation of Nmap and net-tools complete.")
+        # Install Visual Studio Code
+        print("Installing Visual Studio Code...")
+        subprocess.run(["wget", "-qO-", "https://packages.microsoft.com/keys/microsoft.asc", "|", "gpg", "--dearmor", "-o", "/usr/share/keyrings/microsoft.gpg"], check=True, shell=True)
+        subprocess.run(["sh", "-c", "echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/code stable main' > /etc/apt/sources.list.d/vscode.list"], check=True)
+        subprocess.run(["apt", "update"], check=True)
+        subprocess.run(["apt", "install", "-y", "code"], check=True)
+        print("Visual Studio Code installation complete.")
         
     except subprocess.CalledProcessError as e:
         print(f"An error occurred while installing or configuring packages: {e}")
